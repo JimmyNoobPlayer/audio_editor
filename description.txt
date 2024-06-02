@@ -1,0 +1,47 @@
+Feb 2024
+
+audio_editor
+Description
+
+An editor to create sounds from simulated physics objects, resulting in something like the sounds from sample packs used in PS2 and N64 games.
+
+Noise and editor concept inspired by Ken Perlin's papers "An image synthesizer", 1985, which is available from the ACM digital library at https://dl.acm.org/doi/10.1145/325334.325247 and a noise improvement from 2002.
+
+The editor program's objective is to provide a very fast concept/implement/listen cycle of less than a minute, so that the human sound designer can create new sounds and quickly listen to them, hearing them in the same way an audience would hear it. (well maybe not exactly if sample sounds are being created, since the audience would hear them in the context of a music composition using the sound with tons of modification, but the sounds can be evaluated the same way a creator searching through a huge bank of prerecorded sounds would evaluate them)
+
+The basic setup for the physical simulator is to define a data type that represents the position of every movable part of the simulation (a mathematical vector), which can also represent the velocity and acceleration, then make a function that can calculate the acceleration at any given position and velocity value, (which is usually a lot of independent forces/accelerations that can be linearly combined) and use a discrete-time numeric method to find future values for position and velocity, such as the easy Euler method that most beginner game tutorials use. I've implemented the Runge-Kutta "RK4" method. The numeric update method can be improved and updated independently of the other parts of the physical simulator setup.
+
+A future update can include parameters for a simulator, for example changing a spring constant to change frequency or applying impulses. The first implementation has hardcoded parameters. It is easy to imagine a midi stream used to modify parameters to play music of any complexity.
+
+Vector requirements:
+add(self, other) -> new Vector
+scale(self, float_other) -> new Vector
+getMagn(self) -> float value
+any immutable data object that implements addition, scaling, and finding the magnitude can work with the simulators and numerical update methods.
+getZero(self) -> new Vector #of course this is identical to vec.add(vec.scale(-1.0)) (hm, identical not including round-off errors? Round-off error may be very significant but much of my planning has assumed it would be negligible)
+getMagnSq(self) -> float value
+For convenience the Vector should also have a method to get a zero vector and the magnitude squared, which is usually easier to compute.
+
+based on those methods, vecDiff (difference), vecAddList (a convenience function to add a list of Vectors scaled by a list of scalar values), vecPolynomial (find the Vector value of a polynomial with a list of Vectors representing the constants, and a scalar value representing the variable) and vecEquals (an equality check with an optional tolerance)
+
+Very simple Vector and Simulator classes are defined (to be used in testing), and very basic unit tests for any Vector or Simulator are defined.
+
+Simulator requirements:
+getDefaultInitPos(self) ->Vector (exact type defined by the Simulator)
+getDefaultInitVel(self) -> Vector
+getDefaultInitTime(self) -> float
+getAccel(self, posVector, velVector, time) -> Vector
+getOutputValue(self, posVector, velVector, time) -> scalar value representing the loudness of the sound produced at this moment.
+
+
+
+All code written by James McTernan
+
+Change 3/26/2024:
+The Simulator should be time-independent, a parameters should be changed through a Sequence. Through the sequence all varying parameters can be found precisely at any point in time.
+
+Serious problem: how can we use Energy Input Events, such as a hammer strike on a string? This is an event that imparts a large amount of energy instantly or nearly instantly, so even a slight difference in the time could have a serious difference in the behavior, which is unwanted. The behavior of the simulated physical object, and therefore the sound it generates, should be close to the same for small changes in the approximation technique. Using only acceleration values to impart a huge amount of energy in a tiny time frame (a time frame comparable in length to the frames used to update the simulation) will cause problems. For example a large acceleration that updates for three frames could be shifted in time and update for only two frames, which will impart a very different amount of energy to the system, while the amount of energy should be approximately the same.
+
+Possible solution: use the Sequence to add velocity or some other value, as the SoundGenerator moves the current time through the time of the EnergyInputEvent. The Simulation won't know anything about the Energy InputEvent, a certain value such as velocity will suddenly jump, but the Simulation itself doesn't track position and velocity or time, it will just keep on calculating the acceleration for that state value. I think this is the most practical solution.
+
+Possible solution: the EnergyInputEvent will spawn some kind of virtual physical object in the space of the simulated object, and there will be natural laws to transfer the energy into  the simulated object, approximately observing conservation of energy.

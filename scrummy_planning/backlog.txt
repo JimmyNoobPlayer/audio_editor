@@ -1,0 +1,32 @@
+INVEST reminder: all these points should be User Stories, which should be 
+Independent of all other stories
+Negotiable (not a contract, up for change if needed, should be in dialog with the "shareholders" and "owners")
+Valuable or Vertical (able to be demonstrated to show actual results, includes everything from simple to complex to demonstrate the whole Story)
+Estimable (to a good approximation)
+Small (to fit in a single iteration or "sprint")
+Testable (in principle, doesn't need a final test ready right now)
+
+3c: card, conversation, confirmation: making the user story a more formally documented and realized thing. I don't believe this needs to be fully implemented with my one-person team. With two people it would be helpful, even with one it's a good idea. I don't know if I need to create physical objects, the backlog entry might be enough.
+
+Don't start from a traditional requirements document, even when such a document is required.
+
+level of detail can evolve as the requirements are better understood
+
+Not equivalent to a Use Case
+
+These backlog items are reasonable but not very precisely User Stories, good enough for now.
+And of course this backlog including disorganized reminder info is very sloppy, but good enough for now.
+
+Clean up the backlog to be in a form I wouldn't be embarrassed to show anyone. (consolidate the reminders to only the most necessary stuff)
+Change these backlog items into real user stories, rewording
+Add estimated time costs and priorities to these user stories.
+Set up new git repository (using public email) /done 7:11 AM 6/2/2024
+upload onto GitHub
+Separate pie-in-the-sky disorganized planning, formal INVEST planning, and final descriptions
+clean up directory, remove "old_" files after setting up versioning control
+separate all classes into separate files in the python module, including tests (pass the tests)
+create and demonstrate simple-as-possible end-to-end sound generation, including Sequence. (too large...)
+create usable Sequence
+end-to-end demonstration of a sound creation using the editor framework.
+organize the actual logic of how the editor's classes will work together, in description
+change all scalar to double accuracy
