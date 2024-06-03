@@ -1,0 +1,11 @@
+weekly sprint, June 3-7 2024
+still setting up the agile system, still understanding how to use it (specifically in this weird one-person team)
+
+The first priority is to simply implement all the scrum ideas, set up the backlog with estimated and prioritized user stories, the work log,
+
+Get all the programming I've finished on GitHub, set up the git versioning control.
+
+After the scrum structure is in a usable form, finish the Sequence in a useable form and create an end-to-end sound.
+
+Understand the phenomenon of sounds with varying volumes produced from the same non-stochastic system
+
